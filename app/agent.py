@@ -8,7 +8,7 @@ def review_code_with_agent(diff_data):
 
     for file in diff_data:
         prompt = f"""
-Analyze this code and diff. Give output in JSON with:
+Analyze the code and diff. If you find any issues, give output in JSON with. Follow the following format:
 - type (style, bug, perf, best_practice)
 - line
 - description
