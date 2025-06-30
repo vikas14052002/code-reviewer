@@ -43,3 +43,75 @@ uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
 ```
 celery -A app.celery_worker.celery_app worker --loglevel=info
 ```
+
+8)Finally theser are api -endpoints:
+-Analtze PR:
+```
+curl --location 'http://localhost:8000/analyze-pr' \
+--header 'Content-Type: application/json' \
+--data '{
+  "repo_url": "https://github.com/scikit-fuzzy/scikit-fuzzy",
+  "pr_number": 63
+}
+'
+```
+Expected output:
+```
+{
+    "task_id": "a4039727-0bf9-49b9-af2a-f4a58265f0cb"
+}
+```
+
+-Status endpoint:
+
+```
+curl --location 'http://localhost:8000/status/a4039727-0bf9-49b9-af2a-f4a58265f0cb'
+```
+
+Expected output:
+```
+{
+    "task_id": "a4039727-0bf9-49b9-af2a-f4a58265f0cb",
+    "status": "SUCCESS"
+}
+```
+
+-Results endpoint:
+
+```
+curl --location 'http://localhost:8000/results/a4039727-0bf9-49b9-af2a-f4a58265f0cb'
+```
+
+Expected output:
+
+```
+{
+    "task_id": "a4039727-0bf9-49b9-af2a-f4a58265f0cb",
+    "result": {
+        "files": [
+            {
+                "name": "DEPENDS-docs.txt",
+                "issues": []
+            },
+            {
+                "name": "docs/Makefile",
+                "issues": []
+            },
+            {
+                "name": "docs/ext/plot2rst.py",
+                "issues": []
+            },
+            {
+                "name": "docs/tools/build_modref_templates.py",
+                "issues": []
+            }
+        ],
+        "summary": {
+            "total_files": 4,
+            "total_issues": 0,
+            "critical_issues": 0
+        }
+    }
+}
+
+```
