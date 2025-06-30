@@ -45,7 +45,7 @@ celery -A app.celery_worker.celery_app worker --loglevel=info
 ```
 
 8)Finally theser are api -endpoints:
--Analtze PR:
+-Analyze PR:
 ```
 curl --location 'http://localhost:8000/analyze-pr' \
 --header 'Content-Type: application/json' \
@@ -103,7 +103,14 @@ Expected output:
             },
             {
                 "name": "docs/tools/build_modref_templates.py",
-                "issues": []
+                "issues": [
+                    {
+                        "type": "style",
+                        "line": 10,
+                        "description": "Line too long",
+                        "suggestion": "Break line into smaller parts"
+                    }
+                ]
             }
         ],
         "summary": {
@@ -115,3 +122,23 @@ Expected output:
 }
 
 ```
+
+Environment Variables
+Create a .env file based on the provided .env.example:
+```
+REDIS_URL=redis://localhost:6379/0
+```
+
+Future improvements:
+
+The code review agent we used is completely based on our local server. So as per the new technologies, for the github intgeration, we can totally make use of the MCP(Model context protocol).
+
+Directly configuring our MCP with the github token , and we can see various tools predefined if using nx, or 3 tols if we use our local server as of now.
+
+- can add multimodal language support too 
+-API rate limiting and auth
+-Better prompt tuning and structured agent chaining
+- Deployment in docker
+
+
+Testing:run tests with pytest:
