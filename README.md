@@ -10,7 +10,9 @@
 
 #Setup instructions:
 
-1) git clone https://github.com/vikas14052002/code-reviewer.git
+1) Clone the repo:
+```
+git clone https://github.com/vikas14052002/code-reviewer.git
 cd code-review-agent
 
 
@@ -18,3 +20,25 @@ cd code-review-agent
 ```
 python3 -m venv venv
 source venv/bin/activate
+
+3) Install everything from requirements.txt file:
+```
+pip i -r requirements.txt
+
+4) start redis(Mac OS):
+```
+brew install redis
+brew services start redis
+
+5)Start ollama after installation in your local
+```
+ollama run codellama
+
+6)  Start FastAPI server:
+
+```
+uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
+
+7)Finally run the celery worker, logs would be available and visible in this:
+```
+celery -A app.celery_worker.celery_app worker --loglevel=info
